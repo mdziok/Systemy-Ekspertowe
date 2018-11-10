@@ -1,10 +1,6 @@
 :- dynamic
-         wymaga/1.
          rozmiar/1.
-         szerokosc/1.
-         psi_minimalne/1.
-         psi_maksymalne/1.
-         typ/1.
+         jezdzi/1.
 
 /* https://www.continental-tires.com/bicycle/tires/race-tires/gatorskin */
 opona(c_gatorskin) :- rozmiar(28),
