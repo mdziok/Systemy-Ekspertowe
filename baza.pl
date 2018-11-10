@@ -1,87 +1,132 @@
 :- dynamic
          wymaga/1.
-         rozmiar/2.
+         rozmiar/1.
+         szerokosc/1.
          psi_minimalne/1.
          psi_maksymalne/1.
+         typ/1.
 
 /* https://www.continental-tires.com/bicycle/tires/race-tires/gatorskin */
-opona(c_gatorskin) :- rozmiar(28, 0.25),
+opona(c_gatorskin) :- rozmiar(28),
+	szerokosc(0.25, szosowa),
     psi(95,120),
-    waga(310),
+    waga(310, szosowa),
     bieznik(delikatny),
-    posiada(antyprzebicie),
-    jest(szosowa).
+    antyprzebicie(tak),
+    typ(szosowa).
 
 /* https://www.continental-tires.com/bicycle/tires/race-tires/ultra-sport2 */
-opona(c_ultra_sport) :- rozmiar(28, 0.25),
+opona(c_ultra_sport) :- rozmiar(28),
+	szerokosc(0.25, szosowa),
     psi(95,120),
-    waga(340),
+    waga(340, szosowa),
     bieznik(gladki),
-    jest(szosowa).
+    antyprzebicie(nie),
+    typ(szosowa).
 
 /* https://www.continental-tires.com/bicycle/tires/race-tires/grand-prix-4-season */
-opona(c_grand_prix) :- rozmiar(28, 0.25),
+opona(c_grand_prix) :- rozmiar(28),
+    szerokosc(0.25, szosowa),
     psi(95,120),
-    waga(225),
+    waga(225, szosowa),
     bieznik(delikatny),
-    posiada(antyprzebicie),
-    jest(szosowa).
+    antyprzebicie(tak),
+    typ(szosowa).
 
 /* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/contact */
-opona(c_contact) :- rozmiar(28, 0.37),
+opona(c_contact) :- rozmiar(28),
+    szerokosc(0.37, trekkingowa),
     psi(56,85),
-    waga(620),
+    waga(620, trekkingowa),
     bieznik(delikatny),
-    posiada(antyprzebicie),
-    jest(trekkingowa).
+    antyprzebicie(tak),
+    typ(trekkingowa).
 
 /* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/ride-tour */
-opona(c_ride) :- rozmiar(28, 0.42),
+opona(c_ride) :- rozmiar(28),
+    szerokosc(0.42, trekkingowa),
     psi(50,62),
-    waga(720),
+    waga(720, trekkingowa),
     bieznik(wyrazny),
-    posiada(antyprzebicie),
-    jest(trekkingowa).
+    antyprzebicie(tak),
+    typ(trekkingowa).
+
+/* wnioskujemy, czy podana waga opony jest w porządku */
+/* dopracowac wartosci */
+waga(X, trekkingowa) :- X < 1000, wymaga(lekki).
+waga(X, szosowa) :- X < 1000, wymaga(lekki).
+waga(X, trekkingowa) :- X > 800, wymaga(ciezki).
+waga(X, szosowa) :- X > 800, wymaga(ciezki).
+
+/* wnioskujemy, czy podana szerokosc opony jest w porządku */
+/* dopracowac wartosci */
+szerokosc(X, trekkingowa) :- X < 0.3, wymaga(cienki).
+szerokosc(X, trekkingowa) :- X > 0.3, wymaga(szeroki).
+szerokosc(X, szosowa) :- X < 0.3, wymaga(cienki).
+szerokosc(X, szosowa) :- X > 0.3, wymaga(szeroki).
+
+/* wnioskujemy, czy podane psi jest w porzadku */
+/* dopracowac wartosci */
+psi(X, Y) :- X > 50, Y < 80, wymaga(male_psi).
+psi(X, Y) :- X > 70, Y < 100, wymaga(srednie_psi).
+psi(X, Y) :- X > 90, Y < 130, wymaga(duze_psi).
 
 
-waga(X) :- X < 1000, wymaga(lekki).
-waga(X) :- X > 800, wymaga(ciezki).
-/*psi(_,_).*/
-psi(X,Y):- psi_minimalne(A), psi_ok(X,A), psi_maksymalne(B), psi_ok(B,Y).
+/* jakiego bieznika potrzebujemy */
+bieznik(wyrazny) :- jezdzi(wyczynowo).
+bieznik(delikatny) :- jezdzi(wyczynowo).
+bieznik(gladki) :- jezdzi(wyczynowo).
 
-psi_ok(X,Y):- X >= Y.
+/* jakiego typu opony poszukujemy */
+typ(szosowy) :- jezdzi(szosa).
+typ(trekkingowa) :- jezdzi(szosa).
 
-kolo26 :- assertz(rozmiar(26, _)).
-kolo28 :- assertz(rozmiar(28, _)).
-
-/* dodac rozmiar > 0.4 */
-szeroka_opona :- assertz(jest(trekkingowa)).
-
-/* dodac rozmiar > 2.2 */
-szeroka_opona :- assertz(jest(gorska)).
+/* czy potrzebujemy antyprzebicia */
+antyprzebicie(nie) :- (jezdzi(nigdy_miasto).
 
 
-szosowy :- assertz(jest(szosowa), kolo28).
-trekking :- assertz(jest(trekkingowa), kolo28).
-gorski :- assertz(jest(gorska)).
+/* czego wymagamy od opony na podstawie zależności od użytkownika */
+/* dopracować wnioskowanie!!! */
+wymaga(lekki) :- jezdzi(wyczynowo).
+wymaga(ciezki) :- jezdzi(wyczynowo).
+wymaga(cienki) :- jezdzi(wyczynowo).
+wymaga(szeroki) :- jezdzi(wyczynowo).
+wymaga(male_psi) :- jezdzi(wyczynowo).
+wymaga(srednie_psi) :- jezdzi(wyczynowo).
+wymaga(duze_psi) :- jezdzi(wyczynowo).
 
-jazda_w_deszczu :- assertz(jest(szosowa), bieznik(delikatny)).
-jazda_w_deszczu :- assertz(jest(trekkingowa)).
-jazda_w_deszczu :- assertz(jest(gorska)).
 
-jazda_wyczynowa :- assertz(jest(szosowa), bieznik(gladki), wymaga(lekka_szosa)).
-jazda_wyczynowa :- assertz(jest(gorska), bieznik(agresywny), wymaga(lekka_gorska)).
-
-jazda_szybka :- assertz(jest(trekkingowa), psi_minimalne(70)).
-jazda_wygodna :- assertz(jest(trekkingowa), szeroka_opona)
-
-ustaw_psi :- assertz(psi_minimalne(55)), assertz(psi_maksymalne(80)).
-
-/* Przykładowe pytania:
-- po jakim terenie się poruszasz przede wszystkim? asfalt - szuter - teren - bezdroża
-- w jakich warunkach jeździsz? tylko suche - głównie suche, czasem mokro - niezależnie
-- czy jeździsz sportowo? tak - nie
-- czy lubisz wygodną jazdę ? tak - nie
-- czy jeździsz po mieście? tak - czasem - nie
-- co preferujesz? spokojne przemieszczanie się - jazda na czas
+/* PrzykĹ‚adowe pytania:
+- po jakim terenie siÄ™ poruszasz przede wszystkim? asfalt - szuter - teren - bezdroĹĽa
+- w jakich warunkach jeĹşdzisz? tylko suche - gĹ‚Ăłwnie suche, czasem mokro - niezaleĹĽnie
+- czy jeĹşdzisz sportowo? tak - nie
+- czy lubisz wygodnÄ… jazdÄ™ ? tak - nie
+- czy jeĹşdzisz po mieĹ›cie? tak - czasem - nie
+- co preferujesz? spokojne przemieszczanie siÄ™ - jazda na czas
 */
+
+
+/* dane, jakie otrzymamy od uzytkownika */
+kolo(X) :- assertz(rozmiar(X)).
+
+asfalt :- assertz(jezdzi(asfalt)).
+szuter :- assertz(jezdzi(szuter)).
+teren :- assertz(jezdzi(teren)).
+bezdroza :- assertz(jezdzi(bezdroza)).
+
+tylko_sucho :- assertz(jezdzi(tylko_sucho)).
+glownie_sucho :- assertz(jezdzi(glownie_sucho)).
+czasem_mokro :- assertz(jezdzi(czasem_mokro)).
+kazda_pogoda :- assertz(jezdzi(kazda_pogoda)).
+
+sportowo :- assertz(jezdzi(sportowo)).
+nie_sportowo :- assertz(jezdzi(nie_sportowo)).
+
+tylko_miasto :- assertz(jezdzi(tylko_miasto)).
+czasem_miasto :- assertz(jezdzi(czasem_miasto)).
+nigdy_miasto :- assertz(jezdzi(nigdy_miasto)).
+
+spokojna_jazda :- assertz(jezdzi(spokojna_jazda)).
+jazda_na_czas :- assertz(jezdzi(jazda_na_czas)).
+
+
