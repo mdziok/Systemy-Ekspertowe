@@ -4,8 +4,8 @@
 
 /* https://www.continental-tires.com/bicycle/tires/race-tires/gatorskin */
 opona(c_gatorskin) :- rozmiar(28),
-	szerokosc(0.25, szosowa),
-    psi(95,120),
+	szerokosc(28, szosowa),
+    psi(95, 120, szosowa),
     waga(310, szosowa),
     bieznik(delikatny),
     antyprzebicie(tak),
@@ -13,8 +13,8 @@ opona(c_gatorskin) :- rozmiar(28),
 
 /* https://www.continental-tires.com/bicycle/tires/race-tires/ultra-sport2 */
 opona(c_ultra_sport) :- rozmiar(28),
-	szerokosc(0.25, szosowa),
-    psi(95,120),
+	szerokosc(25, szosowa),
+    psi(95, 120, szosowa),
     waga(340, szosowa),
     bieznik(gladki),
     antyprzebicie(nie),
@@ -22,8 +22,8 @@ opona(c_ultra_sport) :- rozmiar(28),
 
 /* https://www.continental-tires.com/bicycle/tires/race-tires/grand-prix-4-season */
 opona(c_grand_prix) :- rozmiar(28),
-    szerokosc(0.25, szosowa),
-    psi(95,120),
+    szerokosc(25, szosowa),
+    psi(95, 120, szosowa),
     waga(225, szosowa),
     bieznik(delikatny),
     antyprzebicie(tak),
@@ -31,8 +31,8 @@ opona(c_grand_prix) :- rozmiar(28),
 
 /* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/contact */
 opona(c_contact) :- rozmiar(28),
-    szerokosc(0.37, trekkingowa),
-    psi(56,85),
+    szerokosc(37, trekkingowa),
+    psi(56, 85, trekkingowa),
     waga(620, trekkingowa),
     bieznik(delikatny),
     antyprzebicie(tak),
@@ -40,89 +40,115 @@ opona(c_contact) :- rozmiar(28),
 
 /* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/ride-tour */
 opona(c_ride) :- rozmiar(28),
-    szerokosc(0.42, trekkingowa),
-    psi(50,62),
+    szerokosc(42, trekkingowa),
+    psi(50, 62, trekkingowa),
     waga(720, trekkingowa),
     bieznik(wyrazny),
     antyprzebicie(tak),
     typ(trekkingowa).
 
-/* wnioskujemy, czy podana waga opony jest w porządku */
-/* dopracowac wartosci */
-waga(X, trekkingowa) :- X < 1000, wymaga(lekki).
-waga(X, szosowa) :- X < 1000, wymaga(lekki).
-waga(X, trekkingowa) :- X > 800, wymaga(ciezki).
-waga(X, szosowa) :- X > 800, wymaga(ciezki).
+/* kat. 1 : NAWIERZCHNIA */
+/* typo potrzebnej opony */
+typ(szosowy) :- jezdzi(asfalt).
+typ(trekkingowa) :- jezdzi(asfalt).
+typ(trekkingowa) :- jezdzi(szuter).
+typ(gorska) :- jezdzi(szuter).
+typ(gorska) :- jezdzi(teren).
+typ(gorska) :- jezdzi(bezdroza).
 
-/* wnioskujemy, czy podana szerokosc opony jest w porządku */
-/* dopracowac wartosci */
-szerokosc(X, trekkingowa) :- X < 0.3, wymaga(cienki).
-szerokosc(X, trekkingowa) :- X > 0.3, wymaga(szeroki).
-szerokosc(X, szosowa) :- X < 0.3, wymaga(cienki).
-szerokosc(X, szosowa) :- X > 0.3, wymaga(szeroki).
+
+/* kat.2 : WARUNKI */
+/* jakiego bieznika potrzebujemy  - w odniesieniu do pogody */
+bieznik(gladki) :- jezdzi(tylko_sucho).
+bieznik(gladki) :- jezdzi(glownie_sucho).
+
+bieznik(delikatny) :- jezdzi(tylko_sucho).
+bieznik(delikatny) :- jezdzi(glownie_sucho).
+bieznik(delikatny) :- jezdzi(czasem_mokro).
+
+bieznik(wyrazny) :- jezdzi(tylko_sucho).
+bieznik(wyrazny) :- jezdzi(glownie_sucho).
+bieznik(wyrazny) :- jezdzi(czasem_mokro).
+bieznik(wyrazny) :- jezdzi(kazda_pogoda).
+
+
+/* kat.3 : POZIOM */
+/* wnioskujemy, czy podana waga opony jest w porządku */
+wymaga(lekki) :- jezdzi(sportowo).
+wymaga(dowolny_ciezar) :- jezdzi(amatorsko).
+
+waga(X, trekkingowa) :- X < 800, wymaga(lekki).
+waga(X, szosowa) :- X < 300, wymaga(lekki).
+
+waga(_, _) :- wymaga(dowolny_ciezar).
 
 /* wnioskujemy, czy podane psi jest w porzadku */
-/* dopracowac wartosci */
-psi(X, Y) :- X > 50, Y < 80, wymaga(male_psi).
-psi(X, Y) :- X > 70, Y < 100, wymaga(srednie_psi).
-psi(X, Y) :- X > 90, Y < 130, wymaga(duze_psi).
+psi(X, Y, _) :- X > 0, Y > 0, jezdzi(amatorsko).
+psi(X, Y, _) :- X > 0, Y > 0, jezdzi(sportowo).
 
 
-/* jakiego bieznika potrzebujemy */
-bieznik(wyrazny) :- jezdzi(wyczynowo).
-bieznik(delikatny) :- jezdzi(wyczynowo).
-bieznik(gladki) :- jezdzi(wyczynowo).
-
-/* jakiego typu opony poszukujemy */
-typ(szosowy) :- jezdzi(szosa).
-typ(trekkingowa) :- jezdzi(szosa).
-
+/* kat.4 : CZY MIASTO */
 /* czy potrzebujemy antyprzebicia */
-antyprzebicie(nie) :- (jezdzi(nigdy_miasto).
+antyprzebicie(nie) :- jezdzi(nigdy_miasto).
+antyprzebicie(tak) :- jezdzi(miasto).
+antyprzebicie(tak) :- jezdzi(tylko_miasto).
 
 
-/* czego wymagamy od opony na podstawie zależności od użytkownika */
-/* dopracować wnioskowanie!!! */
-wymaga(lekki) :- jezdzi(wyczynowo).
-wymaga(ciezki) :- jezdzi(wyczynowo).
-wymaga(cienki) :- jezdzi(wyczynowo).
-wymaga(szeroki) :- jezdzi(wyczynowo).
-wymaga(male_psi) :- jezdzi(wyczynowo).
-wymaga(srednie_psi) :- jezdzi(wyczynowo).
-wymaga(duze_psi) :- jezdzi(wyczynowo).
+/* kat.5 : WYGODA */
+/* wnioskujemy, czy podana szerokosc opony jest w porządku */
+/* dopracowac wartosci */
+wymaga(szeroki) :- jezdzi(wygodnie).
+wymaga(cienki) :- jezdzi(szybko).
+szerokosc(X, trekkingowa) :- X < 40, wymaga(cienki).
+szerokosc(X, trekkingowa) :- X > 40, wymaga(szeroki).
+szerokosc(X, szosowa) :- X < 26, wymaga(cienki).
+szerokosc(X, szosowa) :- X > 26, wymaga(szeroki).
 
 
-/* PrzykĹ‚adowe pytania:
-- po jakim terenie siÄ™ poruszasz przede wszystkim? asfalt - szuter - teren - bezdroĹĽa
-- w jakich warunkach jeĹşdzisz? tylko suche - gĹ‚Ăłwnie suche, czasem mokro - niezaleĹĽnie
-- czy jeĹşdzisz sportowo? tak - nie
-- czy lubisz wygodnÄ… jazdÄ™ ? tak - nie
-- czy jeĹşdzisz po mieĹ›cie? tak - czasem - nie
-- co preferujesz? spokojne przemieszczanie siÄ™ - jazda na czas
+/* Przykladowe pytania:
+- po jakim terenie sie poruszasz przede wszystkim? asfalt - szuter - teren - bezdroza
+- w jakich warunkach jezdzisz? tylko suche, glownie suche, czasem mokro, niezaleznie
+- czy jezdzisz sportowo? tak - nie
+- czy lubisz wygodna jazde ? tak - nie
+- czy jezdzisz po miescie? tak - czasem - nie
+- co preferujesz? spokojne przemieszczanie sie - jazda na czas
 */
 
 
 /* dane, jakie otrzymamy od uzytkownika */
 kolo(X) :- assertz(rozmiar(X)).
 
+/* kat. 1 : NAWIERZCHNIA */
 asfalt :- assertz(jezdzi(asfalt)).
 szuter :- assertz(jezdzi(szuter)).
 teren :- assertz(jezdzi(teren)).
 bezdroza :- assertz(jezdzi(bezdroza)).
 
+/* kat.2 : WARUNKI */
 tylko_sucho :- assertz(jezdzi(tylko_sucho)).
 glownie_sucho :- assertz(jezdzi(glownie_sucho)).
 czasem_mokro :- assertz(jezdzi(czasem_mokro)).
 kazda_pogoda :- assertz(jezdzi(kazda_pogoda)).
 
+/* kat.3 : POZIOM */
 sportowo :- assertz(jezdzi(sportowo)).
-nie_sportowo :- assertz(jezdzi(nie_sportowo)).
+amatorsko :- assertz(jezdzi(amatorsko)).
 
+/* kat.4 : CZY MIASTO */
 tylko_miasto :- assertz(jezdzi(tylko_miasto)).
 czasem_miasto :- assertz(jezdzi(czasem_miasto)).
 nigdy_miasto :- assertz(jezdzi(nigdy_miasto)).
 
-spokojna_jazda :- assertz(jezdzi(spokojna_jazda)).
-jazda_na_czas :- assertz(jezdzi(jazda_na_czas)).
+/* kat.5 : WYGODA */
+wygodnie :- assertz(jezdzi(wygodnie)).
+szybko :- assertz(jezdzi(szybko)).
 
 
+/*
+kolo(28).
+asfalt.
+tylko_sucho.
+sportowo.s
+nigdy_miasto.
+szybko.
+*/
