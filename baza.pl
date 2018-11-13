@@ -49,7 +49,7 @@ opona(c_ride) :- rozmiar(28),
 
 /* kat. 1 : NAWIERZCHNIA */
 /* typo potrzebnej opony */
-typ(szosowy) :- jezdzi(asfalt).
+typ(szosowa) :- jezdzi(asfalt).
 typ(trekkingowa) :- jezdzi(asfalt).
 typ(trekkingowa) :- jezdzi(szuter).
 typ(gorska) :- jezdzi(szuter).
@@ -90,7 +90,7 @@ psi(X, Y, _) :- X > 0, Y > 0, jezdzi(sportowo).
 /* kat.4 : CZY MIASTO */
 /* czy potrzebujemy antyprzebicia */
 antyprzebicie(nie) :- jezdzi(nigdy_miasto).
-antyprzebicie(tak) :- jezdzi(miasto).
+antyprzebicie(tak) :- jezdzi(czasem_miasto).
 antyprzebicie(tak) :- jezdzi(tylko_miasto).
 
 
@@ -99,10 +99,11 @@ antyprzebicie(tak) :- jezdzi(tylko_miasto).
 /* dopracowac wartosci */
 wymaga(szeroki) :- jezdzi(wygodnie).
 wymaga(cienki) :- jezdzi(szybko).
+
 szerokosc(X, trekkingowa) :- X < 40, wymaga(cienki).
-szerokosc(X, trekkingowa) :- X > 40, wymaga(szeroki).
+szerokosc(X, trekkingowa) :- X >= 40, wymaga(szeroki).
 szerokosc(X, szosowa) :- X < 26, wymaga(cienki).
-szerokosc(X, szosowa) :- X > 26, wymaga(szeroki).
+szerokosc(X, szosowa) :- X >= 26, wymaga(szeroki).
 
 
 /* Przykladowe pytania:
@@ -144,11 +145,12 @@ wygodnie :- assertz(jezdzi(wygodnie)).
 szybko :- assertz(jezdzi(szybko)).
 
 
-/*
-kolo(28).
-asfalt.
-tylko_sucho.
-sportowo.s
-nigdy_miasto.
-szybko.
-*/
+
+/* przyklady */
+wyczysc :- retractall(jezdzi(_)), retractall(rozmiar(_)).
+/* c_gatorskin */
+input1 :- kolo(28), asfalt, amatorsko, tylko_sucho, czasem_miasto, wygodnie.
+/* c_ride */
+input2 :- kolo(28), wygodnie, sportowo, kazda_pogoda, tylko_miasto, szuter, asfalt.
+/* c_grand_prix */
+input3 :- kolo(28), asfalt, sportowo, tylko_sucho, tylko_miasto, szybko.
