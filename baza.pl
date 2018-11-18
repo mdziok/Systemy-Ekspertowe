@@ -1,18 +1,40 @@
-:- dynamic
-         rozmiar/1.
-         jezdzi/1.
+/* ------  SZOSOWE ------- */
+
+/* -- gatorskin -- */
+/* 32_f, 25_f, 25 */
 
 /* https://www.continental-tires.com/bicycle/tires/race-tires/gatorskin */
-opona(c_gatorskin) :- rozmiar(28),
-	szerokosc(28, szosowa),
+opona(c_gatorskin_32_f) :- rozmiar(28),
+	szerokosc(32, szosowa),
+    psi(85, 102, szosowa),
+    waga(350, szosowa),
+    bieznik(delikatny),
+    antyprzebicie(tak),
+    typ(szosowa).
+
+/* https://www.continental-tires.com/bicycle/tires/race-tires/gatorskin */
+opona(c_gatorskin_25_f) :- rozmiar(28),
+	szerokosc(25, szosowa),
+    psi(95, 120, szosowa),
+    waga(240, szosowa),
+    bieznik(delikatny),
+    antyprzebicie(tak),
+    typ(szosowa).
+
+/* https://www.continental-tires.com/bicycle/tires/race-tires/gatorskin */
+opona(c_gatorskin_25) :- rozmiar(28),
+	szerokosc(25, szosowa),
     psi(95, 120, szosowa),
     waga(310, szosowa),
     bieznik(delikatny),
     antyprzebicie(tak),
     typ(szosowa).
 
+/* -- ultra sport 2 -- */
+/* 25, 25_f, 23, 23_f */
+
 /* https://www.continental-tires.com/bicycle/tires/race-tires/ultra-sport2 */
-opona(c_ultra_sport) :- rozmiar(28),
+opona(c_ultra_sport_25) :- rozmiar(28),
 	szerokosc(25, szosowa),
     psi(95, 120, szosowa),
     waga(340, szosowa),
@@ -20,17 +42,62 @@ opona(c_ultra_sport) :- rozmiar(28),
     antyprzebicie(nie),
     typ(szosowa).
 
+/* https://www.continental-tires.com/bicycle/tires/race-tires/ultra-sport2 */
+opona(c_ultra_sport_25_f) :- rozmiar(28),
+	szerokosc(25, szosowa),
+    psi(95, 120, szosowa),
+    waga(280, szosowa),
+    bieznik(gladki),
+    antyprzebicie(nie),
+    typ(szosowa).
+
+/* https://www.continental-tires.com/bicycle/tires/race-tires/ultra-sport2 */
+opona(c_ultra_sport_23) :- rozmiar(28),
+	szerokosc(23, szosowa),
+    psi(110, 120, szosowa),
+    waga(310, szosowa),
+    bieznik(gladki),
+    antyprzebicie(nie),
+    typ(szosowa).
+
+/* https://www.continental-tires.com/bicycle/tires/race-tires/ultra-sport2 */
+opona(c_ultra_sport_23_f) :- rozmiar(28),
+	szerokosc(23, szosowa),
+    psi(110, 120, szosowa),
+    waga(240, szosowa),
+    bieznik(gladki),
+    antyprzebicie(nie),
+    typ(szosowa).
+
+/* -- grand-prix-4-season -- */
+/* 25_f, 28_f */
+
 /* https://www.continental-tires.com/bicycle/tires/race-tires/grand-prix-4-season */
-opona(c_grand_prix) :- rozmiar(28),
+opona(c_grand_prix_25_f) :- rozmiar(28),
     szerokosc(25, szosowa),
     psi(95, 120, szosowa),
-    waga(225, szosowa),
+    waga(240, szosowa),
     bieznik(delikatny),
     antyprzebicie(tak),
     typ(szosowa).
 
+/* https://www.continental-tires.com/bicycle/tires/race-tires/grand-prix-4-season */
+opona(c_grand_prix_28_f) :- rozmiar(28),
+    szerokosc(28, szosowa),
+    psi(95, 115, szosowa),
+    waga(280, szosowa),
+    bieznik(delikatny),
+    antyprzebicie(tak),
+    typ(szosowa).
+
+
+/* ------  TREKKINGOWE ------- */
+
+/* -- contact -- */
+/* 37, 42, 47 */
+
 /* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/contact */
-opona(c_contact) :- rozmiar(28),
+opona(c_contact_37) :- rozmiar(28),
     szerokosc(37, trekkingowa),
     psi(56, 85, trekkingowa),
     waga(620, trekkingowa),
@@ -38,119 +105,99 @@ opona(c_contact) :- rozmiar(28),
     antyprzebicie(tak),
     typ(trekkingowa).
 
+/* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/contact */
+opona(c_contact_42) :- rozmiar(28),
+    szerokosc(37, trekkingowa),
+    psi(50, 85, trekkingowa),
+    waga(710, trekkingowa),
+    bieznik(delikatny),
+    antyprzebicie(tak),
+    typ(trekkingowa).
+
+/* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/contact */
+opona(c_contact_47) :- rozmiar(28),
+    szerokosc(47, trekkingowa),
+    psi(45, 58, trekkingowa),
+    waga(810, trekkingowa),
+    bieznik(delikatny),
+    antyprzebicie(tak),
+    typ(trekkingowa).
+
+/* -- ride tour -- */
+/* 37, 42, 47 */
+
 /* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/ride-tour */
-opona(c_ride) :- rozmiar(28),
+opona(c_ride_42) :- rozmiar(28),
     szerokosc(42, trekkingowa),
-    psi(50, 62, trekkingowa),
-    waga(720, trekkingowa),
+    psi(50, 65, trekkingowa),
+    waga(725, trekkingowa),
     bieznik(wyrazny),
     antyprzebicie(tak),
     typ(trekkingowa).
 
-/* kat. 1 : NAWIERZCHNIA */
-/* typo potrzebnej opony */
-typ(szosowa) :- jezdzi(asfalt).
-typ(trekkingowa) :- jezdzi(asfalt).
-typ(trekkingowa) :- jezdzi(szuter).
-typ(gorska) :- jezdzi(szuter).
-typ(gorska) :- jezdzi(teren).
-typ(gorska) :- jezdzi(bezdroza).
+/* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/ride-tour */
+opona(c_ride_37) :- rozmiar(28),
+    szerokosc(37, trekkingowa),
+    psi(56, 70, trekkingowa),
+    waga(655, trekkingowa),
+    bieznik(wyrazny),
+    antyprzebicie(tak),
+    typ(trekkingowa).
 
-
-/* kat.2 : WARUNKI */
-/* jakiego bieznika potrzebujemy  - w odniesieniu do pogody */
-bieznik(gladki) :- jezdzi(tylko_sucho).
-bieznik(gladki) :- jezdzi(glownie_sucho).
-
-bieznik(delikatny) :- jezdzi(tylko_sucho).
-bieznik(delikatny) :- jezdzi(glownie_sucho).
-bieznik(delikatny) :- jezdzi(czasem_mokro).
-
-bieznik(wyrazny) :- jezdzi(tylko_sucho).
-bieznik(wyrazny) :- jezdzi(glownie_sucho).
-bieznik(wyrazny) :- jezdzi(czasem_mokro).
-bieznik(wyrazny) :- jezdzi(kazda_pogoda).
-
-
-/* kat.3 : POZIOM */
-/* wnioskujemy, czy podana waga opony jest w porządku */
-wymaga(lekki) :- jezdzi(sportowo).
-wymaga(dowolny_ciezar) :- jezdzi(amatorsko).
-
-waga(X, trekkingowa) :- X < 800, wymaga(lekki).
-waga(X, szosowa) :- X < 300, wymaga(lekki).
-
-waga(_, _) :- wymaga(dowolny_ciezar).
-
-/* wnioskujemy, czy podane psi jest w porzadku */
-psi(X, Y, _) :- X > 0, Y > 0, jezdzi(amatorsko).
-psi(X, Y, _) :- X > 0, Y > 0, jezdzi(sportowo).
-
-
-/* kat.4 : CZY MIASTO */
-/* czy potrzebujemy antyprzebicia */
-antyprzebicie(nie) :- jezdzi(nigdy_miasto).
-antyprzebicie(tak) :- jezdzi(czasem_miasto).
-antyprzebicie(tak) :- jezdzi(tylko_miasto).
-
-
-/* kat.5 : WYGODA */
-/* wnioskujemy, czy podana szerokosc opony jest w porządku */
-/* dopracowac wartosci */
-wymaga(szeroki) :- jezdzi(wygodnie).
-wymaga(cienki) :- jezdzi(szybko).
-
-szerokosc(X, trekkingowa) :- X < 40, wymaga(cienki).
-szerokosc(X, trekkingowa) :- X >= 40, wymaga(szeroki).
-szerokosc(X, szosowa) :- X < 26, wymaga(cienki).
-szerokosc(X, szosowa) :- X >= 26, wymaga(szeroki).
-
-
-/* Przykladowe pytania:
-- po jakim terenie sie poruszasz przede wszystkim? asfalt - szuter - teren - bezdroza
-- w jakich warunkach jezdzisz? tylko suche, glownie suche, czasem mokro, niezaleznie
-- czy jezdzisz sportowo? tak - nie
-- czy lubisz wygodna jazde ? tak - nie
-- czy jezdzisz po miescie? tak - czasem - nie
-- co preferujesz? spokojne przemieszczanie sie - jazda na czas
-*/
-
-
-/* dane, jakie otrzymamy od uzytkownika */
-kolo(X) :- assertz(rozmiar(X)).
-
-/* kat. 1 : NAWIERZCHNIA */
-asfalt :- assertz(jezdzi(asfalt)).
-szuter :- assertz(jezdzi(szuter)).
-teren :- assertz(jezdzi(teren)).
-bezdroza :- assertz(jezdzi(bezdroza)).
-
-/* kat.2 : WARUNKI */
-tylko_sucho :- assertz(jezdzi(tylko_sucho)).
-glownie_sucho :- assertz(jezdzi(glownie_sucho)).
-czasem_mokro :- assertz(jezdzi(czasem_mokro)).
-kazda_pogoda :- assertz(jezdzi(kazda_pogoda)).
-
-/* kat.3 : POZIOM */
-sportowo :- assertz(jezdzi(sportowo)).
-amatorsko :- assertz(jezdzi(amatorsko)).
-
-/* kat.4 : CZY MIASTO */
-tylko_miasto :- assertz(jezdzi(tylko_miasto)).
-czasem_miasto :- assertz(jezdzi(czasem_miasto)).
-nigdy_miasto :- assertz(jezdzi(nigdy_miasto)).
-
-/* kat.5 : WYGODA */
-wygodnie :- assertz(jezdzi(wygodnie)).
-szybko :- assertz(jezdzi(szybko)).
+/* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/ride-tour */
+opona(c_ride_47) :- rozmiar(28),
+    szerokosc(47, trekkingowa),
+    psi(45, 58, trekkingowa),
+    waga(910, trekkingowa),
+    bieznik(wyrazny),
+    antyprzebicie(tak),
+    typ(trekkingowa).
 
 
 
-/* przyklady */
-wyczysc :- retractall(jezdzi(_)), retractall(rozmiar(_)).
-/* c_gatorskin */
-input1 :- kolo(28), asfalt, amatorsko, tylko_sucho, czasem_miasto, wygodnie.
-/* c_ride */
-input2 :- kolo(28), wygodnie, sportowo, kazda_pogoda, tylko_miasto, szuter, asfalt.
-/* c_grand_prix */
-input3 :- kolo(28), asfalt, sportowo, tylko_sucho, tylko_miasto, szybko.
+/* ------  MTB ------- */
+
+/* https://www.continental-tires.com/bicycle/tires/mountainbike-tires/vapor-2-1 */
+opona(c_vapor_2_1) :- rozmiar(26),
+    szerokosc(54, gorska),
+    psi(50, 65, gorska),
+    waga(715, gorska),
+    bieznik(wyrazny),
+    antyprzebicie(nie),
+    typ(gorska).
+
+/* https://www.continental-tires.com/bicycle/tires/mountainbike-tires/cross-king-racesport */
+opona(c_cross_king_racesport_2_3) :- rozmiar(26),
+    szerokosc(58, gorska),
+    psi(44, 54, gorska),
+    waga(600, gorska),
+    bieznik(delikatny),
+    antyprzebicie(nie),
+    typ(gorska).
+
+/* https://www.continental-tires.com/bicycle/tires/mountainbike-tires/mud-king-protection-apex */
+opona(c_mud_king_2_3) :- rozmiar(26),
+    szerokosc(57, gorska),
+    psi(45, 65, gorska),
+    waga(1100, gorska),
+    bieznik(agresywny),
+    antyprzebicie(nie),
+    typ(gorska).
+
+/* https://www.continental-tires.com/bicycle/tires/mountainbike-tires/der-baron-2-4-projekt */
+opona(c_der_baron_2_4) :- rozmiar(26),
+    szerokosc(60, gorska),
+    psi(36, 51, gorska),
+    waga(900, gorska),
+    bieznik(agresywny),
+    antyprzebicie(nie),
+    typ(gorska).
+
+/* https://www.continental-tires.com/bicycle/tires/mountainbike-tires/double-fighter-3 */
+opona(c_double_fighter_III_1_9) :- rozmiar(26),
+    szerokosc(50, gorska),
+    psi(50, 65, gorska),
+    waga(800, gorska),
+    bieznik(delikatny),
+    antyprzebicie(tak),
+    typ(gorska).
