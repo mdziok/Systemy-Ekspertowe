@@ -26,7 +26,7 @@ bieznik(wyrazny) :- jezdzi(glownie_sucho).
 bieznik(wyrazny) :- jezdzi(czasem_mokro).
 bieznik(wyrazny) :- jezdzi(kazda_pogoda).
 
-bieznik(agresywny) :- jezdzi(czasem_mokro).
+% bieznik(agresywny) :- jezdzi(czasem_mokro).
 bieznik(agresywny) :- jezdzi(kazda_pogoda).
 
 
@@ -35,8 +35,9 @@ bieznik(agresywny) :- jezdzi(kazda_pogoda).
 wymaga(lekki) :- jezdzi(sportowo).
 wymaga(dowolny_ciezar) :- jezdzi(amatorsko).
 
-waga(X, trekkingowa) :- X < 800, wymaga(lekki).
+waga(X, trekkingowa) :- X < 700, wymaga(lekki).
 waga(X, szosowa) :- X < 300, wymaga(lekki).
+waga(_, gorska) :- wymaga(_).
 
 waga(_, _) :- wymaga(dowolny_ciezar).
 
@@ -48,7 +49,7 @@ psi(X, Y, _) :- X > 0, Y > 0, jezdzi(sportowo).
 /* kat.4 : CZY MIASTO */
 /* czy potrzebujemy antyprzebicia */
 antyprzebicie(nie) :- jezdzi(nigdy_miasto).
-antyprzebicie(tak) :- jezdzi(czasem_miasto).
+antyprzebicie(_) :- jezdzi(czasem_miasto).
 antyprzebicie(tak) :- jezdzi(tylko_miasto).
 
 
@@ -58,10 +59,11 @@ antyprzebicie(tak) :- jezdzi(tylko_miasto).
 wymaga(szeroki) :- jezdzi(wygodnie).
 wymaga(cienki) :- jezdzi(szybko).
 
-szerokosc(X, trekkingowa) :- X < 40, wymaga(cienki).
-szerokosc(X, trekkingowa) :- X >= 40, wymaga(szeroki).
+szerokosc(X, trekkingowa) :- X < 45, wymaga(cienki).
+szerokosc(X, trekkingowa) :- X > 40, wymaga(szeroki).
 szerokosc(X, szosowa) :- X < 26, wymaga(cienki).
 szerokosc(X, szosowa) :- X >= 26, wymaga(szeroki).
+szerokosc(_, gorska) :- wymaga(_). /* TODO: CHECK */
 
 
 /* Przykladowe pytania:
