@@ -1,6 +1,7 @@
 from pyswip import Prolog
 from tkinter import *
 from tkinter import ttk
+import webbrowser
 
 
 class PrologHelper():
@@ -52,31 +53,47 @@ class Application(Frame):
                 count += 1
                 ans.append(key)
         if count == 0:
+            self.result['text'] = "Musisz wybrać odpowiedzi na wszystkie pytania!"
             return
         
         self.prolog.clear()
         self.prolog.set_size(r)
         self.prolog.set_ans(ans)
         ret = self.prolog.get_ans()
-        print(ret)
-        if not ret:
-            ret = "Nie znaleziono odpowiedniej opony dla zapytania :("
-        self.result['text'] = ret
+        self.display_answers(ret)
+        
+    def display_answers(self, ans):
+        for widget in self.an.winfo_children():
+            widget.destroy()
+        if not ans:
+            self.result['text'] = "Nie znaleziono odpowiedniej opony dla zapytania :("
+            return
+        self.result['text'] = "Oto proponowane dla Ciebie opony :)"
+        for a in ans:
+            l = Label(self.an, text=a, fg='blue', cursor="hand2")
+            l.pack()
+            l.bind("<Button-1>", self.callback)
+            
+    def callback(self, event):
+        webbrowser.open_new(link_dict[event.widget.cget("text")])
         
     def create_question(self):
-        q0 = Frame(self)
+        q = Frame(self)
+        q.pack()
+        q0 = Frame(q)
         q0.pack()
-        q1 = Frame(self)
+        q1 = Frame(q)
         q1.pack()
-        q2 = Frame(self)
+        q2 = Frame(q)
         q2.pack()
-        q3 = Frame(self)
+        q3 = Frame(q)
         q3.pack()
-        q4 = Frame(self)
+        q4 = Frame(q)
         q4.pack()
-        q5 = Frame(self)
+        q5 = Frame(q)
         q5.pack()
-        
+        self.an = Frame(self)
+        self.an.pack()
         
         Label(q0, text="Wybierz rozmiar koła w calach:").pack()
         self.rozmiar = StringVar()
@@ -118,18 +135,27 @@ class Application(Frame):
         for t, m in modes:
             Radiobutton(q5, text=t, variable=self.wygoda, value=m).pack(side='left')
         
-        self.quit = Button(self, text="ZNAJDŹ OPONĘ DLA MNIE!",
+        self.quit = Button(q, text="ZNAJDŹ OPONĘ DLA MNIE!",
                               command=self.send_answers)
         self.quit.pack()
-        self.result = Label(self)
+        self.result = Label(q)
         self.result.pack()
 
-    def cb(self):
-        for key in self.v:
-            print(key, self.v[key].get())
-
-
-
+# parsowanie pliku i komentarzy - zamienić na czytanie właściwości z pliku         
+with open("baza.pl") as file:
+    baza = file.readlines()
+links = []
+names = []
+for line in baza:
+    if line.startswith('/* https'):
+        links.append(line.split(' ')[1])
+    if line.startswith('opona'):
+        names.append(line.replace(')', '(').split('(')[1])
+link_dict = {}
+for key, value in zip(names, links):
+    link_dict[key] = value
+# koniec parsowania
+    
 prolog = PrologHelper("baza.pl", "wnioskowanie.pl")
 root = Tk()
 app = Application(master=root, prolog=prolog)
