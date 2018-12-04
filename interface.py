@@ -2,6 +2,8 @@ from pyswip import Prolog
 from tkinter import *
 from tkinter import ttk
 import webbrowser
+import csv
+import functools
 
 
 class PrologHelper():
@@ -69,13 +71,15 @@ class Application(Frame):
             self.result['text'] = "Nie znaleziono odpowiedniej opony dla zapytania :("
             return
         self.result['text'] = "Oto proponowane dla Ciebie opony :)"
-        for a in ans:
-            l = Label(self.an, text=a, fg='blue', cursor="hand2")
+        for a in ans:       
+            text = self.dane[a][1]
+            l = Label(self.an, text=text, fg='blue', cursor="hand2")
+            arg = self.dane[a][0]
             l.pack()
-            l.bind("<Button-1>", self.callback)
+            l.bind("<Button-1>", functools.partial(self.callback, arg))
             
-    def callback(self, event):
-        webbrowser.open_new(link_dict[event.widget.cget("text")])
+    def callback(self, arg, event):
+        webbrowser.open_new(arg)
         
     def create_question(self):
         q = Frame(self)
@@ -157,6 +161,10 @@ for key, value in zip(names, links):
 # koniec parsowania
     
 prolog = PrologHelper("baza.pl", "wnioskowanie.pl")
+reader = csv.reader(open('baza.csv', newline=''))
+dane = {}
+for row in reader:
+    dane[row[0]] = [row[1], row[2]]
 root = Tk()
-app = Application(master=root, prolog=prolog)
+app = Application(master=root, prolog=prolog, dane=dane)
 app.mainloop()
