@@ -1,5 +1,34 @@
-% dodaj szosową na każdą pogodę
 /* ------  SZOSOWE ------- */
+
+/* -- grand-prix-4-season -- */
+/* 32, 28, 25 */
+
+/* https://www.continental-tires.com/bicycle/tires/race-tires/grand-prix-4-season */
+opona(c_gp_4_season_32) :- rozmiar(28),
+	szerokosc(32, szosowa),
+    psi(85, 102, szosowa),
+    waga(320, szosowa),
+    bieznik(wyrazny),
+    antyprzebicie(tak),
+    typ(szosowa).
+
+/* https://www.continental-tires.com/bicycle/tires/race-tires/grand-prix-4-season */
+opona(c_gp_4_season_28) :- rozmiar(28),
+	szerokosc(28, szosowa),
+    psi(95, 115, szosowa),
+    waga(280, szosowa),
+    bieznik(wyrazny),
+    antyprzebicie(tak),
+    typ(szosowa).
+
+/* https://www.continental-tires.com/bicycle/tires/race-tires/grand-prix-4-season */
+opona(c_gp_4_season_25) :- rozmiar(28),
+	szerokosc(25, szosowa),
+    psi(95, 120, szosowa),
+    waga(240, szosowa),
+    bieznik(wyrazny),
+    antyprzebicie(tak),
+    typ(szosowa).
 
 /* -- gatorskin -- */
 /* 32_f, 25_f, 25 */

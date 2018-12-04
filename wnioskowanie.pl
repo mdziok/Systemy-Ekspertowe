@@ -42,11 +42,12 @@ waga(_, gorska) :- wymaga(_).
 waga(_, _) :- wymaga(dowolny_ciezar).
 
 /* wnioskujemy, czy podane psi jest w porzadku */
-%psi(X, Y, _) :- X > 0, Y > 0, jezdzi(amatorsko).
+psi(_, _, gorska) :- jezdzi(amatorsko).
+psi(_, _, gorska) :- jezdzi(sportowo).
 psi(_, Y, trekkingowa) :- Y > 60, jezdzi(sportowo).
 psi(_, _, trekkingowa) :- jezdzi(amatorsko).
 psi(X, _, szosowa) :- X < 100, jezdzi(amatorsko).
-psi(_, Y, szosowa) :- Y > 100, jezdzi(sportowo).
+psi(X, Y, szosowa) :- X > 90, Y > 110, jezdzi(sportowo).
 
 
 
@@ -67,7 +68,7 @@ szerokosc(X, trekkingowa) :- X < 45, wymaga(cienki).
 szerokosc(X, trekkingowa) :- X > 40, wymaga(szeroki).
 szerokosc(X, szosowa) :- X < 26, wymaga(cienki).
 szerokosc(X, szosowa) :- X >= 26, wymaga(szeroki).
-szerokosc(_, gorska) :- wymaga(_). /* TODO: CHECK */
+szerokosc(_, gorska) :- wymaga(_).
 
 
 /* Przykladowe pytania:
