@@ -4,8 +4,8 @@
 
 /* kat. 1 : NAWIERZCHNIA */
 /* typo potrzebnej opony */
-typ(szosowa) :- jezdzi(asfalt).
-typ(trekkingowa) :- jezdzi(asfalt).
+typ(szosowa) :- jezdzi(asfalt), \+jezdzi(szuter), \+jezdzi(teren), \+jezdzi(bezdroza).
+typ(trekkingowa) :- jezdzi(asfalt), jezdzi(szuter).
 typ(trekkingowa) :- jezdzi(szuter).
 typ(gorska) :- jezdzi(szuter).
 typ(gorska) :- jezdzi(teren).
@@ -42,13 +42,17 @@ waga(_, gorska) :- wymaga(_).
 waga(_, _) :- wymaga(dowolny_ciezar).
 
 /* wnioskujemy, czy podane psi jest w porzadku */
-psi(X, Y, _) :- X > 0, Y > 0, jezdzi(amatorsko).
-psi(X, Y, _) :- X > 0, Y > 0, jezdzi(sportowo).
+%psi(X, Y, _) :- X > 0, Y > 0, jezdzi(amatorsko).
+psi(_, Y, trekkingowa) :- Y > 60, jezdzi(sportowo).
+psi(_, _, trekkingowa) :- jezdzi(amatorsko).
+psi(X, _, szosowa) :- X < 100, jezdzi(amatorsko).
+psi(_, Y, szosowa) :- Y > 100, jezdzi(sportowo).
+
 
 
 /* kat.4 : CZY MIASTO */
 /* czy potrzebujemy antyprzebicia */
-antyprzebicie(nie) :- jezdzi(nigdy_miasto).
+antyprzebicie(_) :- jezdzi(nigdy_miasto).
 antyprzebicie(_) :- jezdzi(czasem_miasto).
 antyprzebicie(tak) :- jezdzi(tylko_miasto).
 

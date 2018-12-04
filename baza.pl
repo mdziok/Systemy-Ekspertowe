@@ -1,3 +1,4 @@
+% dodaj szosową na każdą pogodę
 /* ------  SZOSOWE ------- */
 
 /* -- gatorskin -- */
@@ -36,7 +37,7 @@ opona(c_gatorskin_25) :- rozmiar(28),
 /* https://www.continental-tires.com/bicycle/tires/race-tires/ultra-sport2 */
 opona(c_ultra_sport_25) :- rozmiar(28),
 	szerokosc(25, szosowa),
-    psi(95, 120, szosowa),
+    psi(100, 120, szosowa),
     waga(340, szosowa),
     bieznik(gladki),
     antyprzebicie(nie),
@@ -45,7 +46,7 @@ opona(c_ultra_sport_25) :- rozmiar(28),
 /* https://www.continental-tires.com/bicycle/tires/race-tires/ultra-sport2 */
 opona(c_ultra_sport_25_f) :- rozmiar(28),
 	szerokosc(25, szosowa),
-    psi(95, 120, szosowa),
+    psi(100, 120, szosowa),
     waga(280, szosowa),
     bieznik(gladki),
     antyprzebicie(nie),
@@ -107,7 +108,7 @@ opona(c_contact_37) :- rozmiar(28),
 
 /* https://www.continental-tires.com/bicycle/tires/city-trekking-tires/contact */
 opona(c_contact_42) :- rozmiar(28),
-    szerokosc(37, trekkingowa),
+    szerokosc(42, trekkingowa),
     psi(50, 85, trekkingowa),
     waga(710, trekkingowa),
     bieznik(delikatny),
